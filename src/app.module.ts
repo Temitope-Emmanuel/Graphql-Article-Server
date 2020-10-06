@@ -9,14 +9,14 @@ import { ArticleModule } from './article/article.module';
 import { AuthModule } from './auth/auth.module';
 import {GraphQLModule} from "@nestjs/graphql"
 import {join} from "path"
-// import {Connection} from "typeorm"
 
 @Module({
   imports: [
     GraphQLModule.forRoot({
       sortSchema:true,
       autoSchemaFile:join(process.cwd(),'src/schema.gql'),
-      playground:true
+      playground:true,
+      context:({req}) => ({req})
     }),
     TypeOrmModule.forRoot({
       type:"postgres",

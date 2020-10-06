@@ -3,8 +3,8 @@ import {Article} from "../../article/models/article.model"
 
 @ObjectType()
 export class User {
-  @Field(type => Int)
-  id: number;
+  @Field()
+  id: string;
 
   @Field()
   username: string;

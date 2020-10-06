@@ -7,10 +7,9 @@ export class AuthToken {
     @Field(type => User)
     user:User;
     @Field()
-    token:string;
+    access_token:string;
 }
 
-// @ArgsType()
 @InputType()
 export class CreateUserArgs {
     @Field()
@@ -19,4 +18,12 @@ export class CreateUserArgs {
     password:string;
     @Field()
     username:string;
+}
+
+@InputType()
+export class loginUserArgs {
+    @Field()
+    password:string
+    @Field()
+    email:string
 }
