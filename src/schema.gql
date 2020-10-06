@@ -47,7 +47,14 @@ type User {
   createdAt: DateTime!
   email: String!
   id: String!
+  role: UserRole!
   updatedAt: DateTime!
   username: String!
   verified: Boolean!
+}
+
+enum UserRole {
+  ADMIN
+  USER
+  WRITER
 }

@@ -1,6 +1,11 @@
-import { Field, Int, ObjectType } from '@nestjs/graphql';
+import { Field, Int, ObjectType,registerEnumType } from '@nestjs/graphql';
 import {Article} from "../../article/models/article.model"
+import {UserRole} from "./user.entity"
 
+
+registerEnumType(UserRole,{
+  name:'UserRole'
+})
 @ObjectType()
 export class User {
   @Field()
@@ -12,14 +17,11 @@ export class User {
   @Field()
   email: string;
   
-  // @Field()
-  // password: string;
-
   @Field()
   verified: boolean;
 
-  // @Field()
-  // role:string[]
+  @Field(returns => UserRole)
+  role:UserRole
 
   @Field(type => [Article])
   article:Article[];
