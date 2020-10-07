@@ -6,7 +6,7 @@ type Article {
   author: User!
   body: String!
   createdAt: DateTime!
-  id: Int!
+  id: String!
   title: String!
   updatedAt: DateTime!
 }
@@ -14,6 +14,25 @@ type Article {
 type AuthToken {
   access_token: String!
   user: User!
+}
+
+type Comment {
+  article: Article!
+  author: User!
+  body: String!
+  createdAt: DateTime!
+  id: String!
+  updatedAt: DateTime!
+}
+
+input CreateArticleArgs {
+  body: String!
+  title: String!
+}
+
+input CreateCommentArgs {
+  articleId: Int!
+  body: String!
 }
 
 input CreateUserArgs {
@@ -33,10 +52,16 @@ input loginUserArgs {
 }
 
 type Mutation {
+  CreateArticle(input: CreateArticleArgs!): Article!
+  createComment(input: CreateCommentArgs!): Comment!
+  deleteArticle(id: String!): Article!
+  deleteComment(id: String!): Comment!
   registerUser(input: CreateUserArgs!): AuthToken!
 }
 
 type Query {
+  getAllArticle(limit: Int = 10, skip: Int = 0): [Article!]!
+  getArticle(id: String!): Article!
   login(input: loginUserArgs!): AuthToken!
   Me: User!
   User(id: String!): User!

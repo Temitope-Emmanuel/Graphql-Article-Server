@@ -1,7 +1,8 @@
 import { 
-  Entity, Column, PrimaryColumn,
+  Entity, Column, PrimaryGeneratedColumn,
   CreateDateColumn,UpdateDateColumn,OneToMany } from 'typeorm';
 import {Article} from '../../article/models/article.entity'
+import {Comment} from "../../comment/models/comment.entity"
 import {v4 as uuid} from "uuid"
 
 export enum UserRole {
@@ -12,8 +13,8 @@ export enum UserRole {
 
 @Entity()
 export class User {
-  @PrimaryColumn({type:"uuid",default:uuid()})
-  id: number;
+  @PrimaryGeneratedColumn("uuid")
+  id: string;
 
   @Column({unique:true})
   username: string;
@@ -21,10 +22,10 @@ export class User {
   @Column({unique:true})
   email: string;
   
-  @Column()
+  @Column({select:false})
   password: string;
   
-  @Column({update:false})
+  @Column({update:false,select:false})
   salt: string;
 
   @Column({
@@ -39,6 +40,9 @@ export class User {
 
   @OneToMany(type => Article, article => article.author)
   article:Article[];
+  
+  @OneToMany(type => Comment, comment => comment.author)
+  comments:Comment[];
 
   @CreateDateColumn({update:false})
   createdAt:Date;

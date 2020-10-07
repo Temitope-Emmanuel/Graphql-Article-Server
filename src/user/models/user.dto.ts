@@ -1,4 +1,4 @@
-import {InputType,ObjectType,ArgsType,Int,Field} from "@nestjs/graphql"
+import {InputType,ObjectType,Field} from "@nestjs/graphql"
 import {User} from './user.model'
 
 

@@ -28,6 +28,7 @@ export class UserService {
     makeSalt():string {
         return Math.round(new Date().valueOf() * Math.random()) + '';
     }
+
     encryptPassword(arg:{password:string,salt:string}):string{
         return (this.crypto as any).createHmac('sha1',arg.salt).update(arg.password).digest('hex')
     }
@@ -37,11 +38,14 @@ export class UserService {
     }
     
     findOne(email:string):Promise<User>{
-        return this.usersRepository.findOne({where:{email}});
+        return this.usersRepository
+        .createQueryBuilder("user")
+        .where("user.email = :email",{email})
+        .addSelect("user.password").addSelect("user.salt")
+        .getOne()
     }
 
     find(id:string):Promise<User>{
-        console.log(id)
         return this.usersRepository.findOne({where:{id}})
     }
 

@@ -1,12 +1,17 @@
-import { Entity, Column, PrimaryGeneratedColumn,OneToMany,JoinColumn,ManyToOne} from 'typeorm';
+import { 
+  Entity,Column,PrimaryColumn,
+  CreateDateColumn,UpdateDateColumn,
+  ManyToOne,PrimaryGeneratedColumn
+} from 'typeorm';
 import {User} from '../../user/models/user.entity'
+import {Comment} from '../../comment/models/comment.entity'
 
 @Entity()
 export class Article {
-  @PrimaryGeneratedColumn()
-  id: number;
+  @PrimaryGeneratedColumn("uuid")
+  id: string;
 
-  @Column()
+  @Column({unique:true})
   title: string;
 
   @Column({type:"text"})
@@ -14,10 +19,13 @@ export class Article {
   
   @ManyToOne(type => User, user => user.article)
   author:User
+  
+  @ManyToOne(type => Comment, comment => comment.article)
+  comments:User
 
-  @Column({default:new Date(),type:"date"})
+  @CreateDateColumn({type:Date})
   createdAt:Date;
 
-  @Column({default:new Date(),type:"date"})
+  @UpdateDateColumn({type:Date})
   updatedAt:Date;
 }

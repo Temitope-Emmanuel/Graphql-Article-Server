@@ -1,6 +1,6 @@
 import {
-    Resolver,Subscription,Int,Mutation,
-    Query,Args,ResolveField,Parent
+    Resolver,Mutation,
+    Query,Args
 } from "@nestjs/graphql"
 import {User} from "./models/user.model"
 import {UserService} from "./user.service"
@@ -28,7 +28,6 @@ export class UserResolver {
     @Query(returns => User,{name:'Me'})
     @UseGuards(JwtAuthGuard)
     async getMe(@CurrentUser()user:User){
-        console.log(user)
         return user
     }
 }

@@ -1,14 +1,13 @@
 import { Module } from '@nestjs/common';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
 import {TypeOrmModule} from "@nestjs/typeorm"
-import {User} from "./user/models/user.entity"
-import {Article} from "./article/models/article.entity"
+import {GraphQLModule} from "@nestjs/graphql"
 import { UserModule } from './user/user.module';
 import { ArticleModule } from './article/article.module';
 import { AuthModule } from './auth/auth.module';
-import {GraphQLModule} from "@nestjs/graphql"
 import {join} from "path"
+import {User} from "./user/models/user.entity"
+import {Article} from "./article/models/article.entity"
+import {Comment} from "./comment/models/comment.entity"
 
 @Module({
   imports: [
@@ -25,15 +24,13 @@ import {join} from "path"
       username:"postgres",
       password:'password',
       database:"test",
-      entities:[User,Article],
+      entities:[User,Comment,Article],
       synchronize:true
     }),
     UserModule,
     ArticleModule,
     AuthModule
-  ],
-  controllers: [AppController],
-  providers: [AppService],
+  ]
 })
 // for typeorm.json
 // export class AppModule {
