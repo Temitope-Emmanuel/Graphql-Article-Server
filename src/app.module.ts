@@ -5,9 +5,11 @@ import { UserModule } from './user/user.module';
 import { ArticleModule } from './article/article.module';
 import { AuthModule } from './auth/auth.module';
 import {join} from "path"
+import {CommentModule} from "./comment/comment.module"
 import {User} from "./user/models/user.entity"
 import {Article} from "./article/models/article.entity"
 import {Comment} from "./comment/models/comment.entity"
+import {UserService} from "./user/user.service"
 
 @Module({
   imports: [
@@ -28,6 +30,7 @@ import {Comment} from "./comment/models/comment.entity"
       synchronize:true
     }),
     UserModule,
+    CommentModule,
     ArticleModule,
     AuthModule
   ]

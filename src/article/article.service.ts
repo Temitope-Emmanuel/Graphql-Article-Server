@@ -20,31 +20,56 @@ export class ArticleService {
         return this.articleRepository.save(newArticle)
     }
 
-    getAllArticles(args:getAllArticleArgs):Promise<Article[]>{
+    getAllArticles(args:getAllArticleArgs):Promise<[Article[],number]>{
         return this.articleRepository
         .createQueryBuilder("article")
-        .leftJoinAndSelect("article.author","author","name")
-        .addSelect("SUM(article)","sum")
+        // .leftJoinAndSelect("article.author","author","name")
         .take(args.limit)
         .skip(args.skip)
-        .getMany()
+        .getManyAndCount()
     }    
-    async getArticle(id:string):Promise<Article>{
+
+    getArticle(id:string):Promise<Article>{
         return this.articleRepository
         .createQueryBuilder('article')
+        .where("article.id = :id",{id})
+        .leftJoinAndSelect("article.comments","comment")
+        .getOne()
+    }
+
+    getArticleAuthor(id:string):Promise<Article>{
+        return this.articleRepository
+        .createQueryBuilder("article")
         .where("article.id = :id",{id})
         .leftJoinAndSelect("article.author","author")
         .getOne()
     }
+
+    getArticleComment(id:string):Promise<Article>{
+        return this.articleRepository
+        .createQueryBuilder("article")
+        .where("article.id = :id",{id})
+        .leftJoinAndSelect("article.comments","comments")
+        .getOne()
+    }
+
+    getArticlesByAuthor(id:string):Promise<Article[]>{
+        return this.articleRepository
+        .createQueryBuilder("article")
+        .where("article.author = :id",{id})
+        .getMany()
+    }
+    
     async deleteArticle(id:string):Promise<any>{
         const response = await this.articleRepository
         .createQueryBuilder('article')
         .where("article.id = :id",{id})
-        .leftJoinAndSelect("article.author","author")
+        // .leftJoinAndSelect("article.author","author")
         .getOne()
         await this.articleRepository
         .createQueryBuilder("article")
         .delete().where("article.id = :id",{id}).execute()
         return response
     }
+
 }

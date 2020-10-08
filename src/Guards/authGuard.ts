@@ -14,11 +14,5 @@ export class GqlAuthGuard extends AuthGuard('local') {
       password:input.input.password,
     }
     return req;
-  }
-  
-  // canActivate(context:ExecutionContext):boolean | Promise<boolean> | Observable<boolean> {
-  //   const ctx = GqlExecutionContext.create(context);
-  //   const {req} = ctx.getContext()
-  //   return super.canActivate(new ExecutionContextHost([req]))
-  // }
+  }  
 }

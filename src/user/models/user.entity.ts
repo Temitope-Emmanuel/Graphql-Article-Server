@@ -3,7 +3,6 @@ import {
   CreateDateColumn,UpdateDateColumn,OneToMany } from 'typeorm';
 import {Article} from '../../article/models/article.entity'
 import {Comment} from "../../comment/models/comment.entity"
-import {v4 as uuid} from "uuid"
 
 export enum UserRole {
   ADMIN = 'admin',

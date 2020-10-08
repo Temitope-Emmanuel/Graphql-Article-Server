@@ -1,10 +1,13 @@
 import {UseGuards} from "@nestjs/common"
-import {Resolver,Int,Mutation,Query,Args} from "@nestjs/graphql"
+import {Resolver,Mutation,Query,Args, ResolveField, Parent} from "@nestjs/graphql"
 import {Article} from "./models/article.model"
+import {User as Author} from "../user/models/user.model"
+import {Comment} from "../comment/models/comment.model"
 import {ArticleService} from "./article.service"
 import {CurrentUser} from "../Guards/currentUser"
 import {JwtAuthGuard} from "../Guards/jwtGuard"
-import {CreateArticleArgs,getAllArticleArgs} from "./models/resolver.dto"
+import {CreateArticleArgs,getAllArticleArgs,GetAllArticleReturn} from "./models/resolver.dto"
+
 
 @Resolver(of => Article)
 export class ArticleResolver {
@@ -20,16 +23,32 @@ export class ArticleResolver {
 
     @Query(returns => Article,{name:"getArticle"})
     async getArticle(@Args("id")id:string){
-        return this.articleService.getArticle(id)
+        const response = await this.articleService.getArticle(id)
+        return response
     }
 
-    @Query(returns => [Article],{name:"getAllArticle"})
+    @Query(returns => GetAllArticleReturn,{name:"getAllArticle"})
     async getAllArticle(@Args() args:getAllArticleArgs){
-        return this.articleService.getAllArticles(args)
+        const [article,count] = await this.articleService.getAllArticles(args)
+        return {article,count}
     }
     
     @Mutation(returns => Article,{name:"deleteArticle"})
     async deleteArticle(@Args("id")id:string){
-        return await this.articleService.deleteArticle(id)
+        return this.articleService.deleteArticle(id)
+    }
+    
+    @ResolveField("author",returns => Author)
+    async getArticleAuthor(@Parent(){id}:Article){
+        const response = await this.articleService.getArticleAuthor(id)
+        return {
+            ...response.author
+        }
+    }
+
+    @ResolveField("comments",returns => [Comment])
+    async getArticleComment(@Parent(){id}:Article){
+        const response = await this.articleService.getArticleComment(id)
+        return response.comments
     }
 }

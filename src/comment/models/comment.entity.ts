@@ -1,4 +1,6 @@
-import { Entity,Column,PrimaryGeneratedColumn,CreateDateColumn,UpdateDateColumn,ManyToOne} from 'typeorm';
+  import { 
+  Entity,Column,PrimaryGeneratedColumn,
+  CreateDateColumn,UpdateDateColumn,ManyToOne} from 'typeorm';
 import {User} from '../../user/models/user.entity'
 import {Article} from "../../article/models/article.entity"
 

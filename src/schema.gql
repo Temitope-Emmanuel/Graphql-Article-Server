@@ -5,6 +5,7 @@
 type Article {
   author: User!
   body: String!
+  comments: [Comment!]!
   createdAt: DateTime!
   id: String!
   title: String!
@@ -31,7 +32,7 @@ input CreateArticleArgs {
 }
 
 input CreateCommentArgs {
-  articleId: Int!
+  articleId: String!
   body: String!
 }
 
@@ -45,6 +46,11 @@ input CreateUserArgs {
 A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
 """
 scalar DateTime
+
+type GetAllArticleReturn {
+  article: [Article!]!
+  count: Int!
+}
 
 input loginUserArgs {
   email: String!
@@ -60,8 +66,9 @@ type Mutation {
 }
 
 type Query {
-  getAllArticle(limit: Int = 10, skip: Int = 0): [Article!]!
+  getAllArticle(limit: Int = 10, skip: Int = 0): GetAllArticleReturn!
   getArticle(id: String!): Article!
+  getComment(id: String!): Comment!
   login(input: loginUserArgs!): AuthToken!
   Me: User!
   User(id: String!): User!
@@ -69,6 +76,7 @@ type Query {
 
 type User {
   article: [Article!]!
+  comments: [Comment!]!
   createdAt: DateTime!
   email: String!
   id: String!

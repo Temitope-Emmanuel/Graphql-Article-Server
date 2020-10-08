@@ -1,5 +1,5 @@
 import { 
-  Entity,Column,PrimaryColumn,
+  Entity,Column,OneToMany,
   CreateDateColumn,UpdateDateColumn,
   ManyToOne,PrimaryGeneratedColumn
 } from 'typeorm';
@@ -20,8 +20,8 @@ export class Article {
   @ManyToOne(type => User, user => user.article)
   author:User
   
-  @ManyToOne(type => Comment, comment => comment.article)
-  comments:User
+  @OneToMany(type => Comment, comment => comment.article)
+  comments:Comment[]
 
   @CreateDateColumn({type:Date})
   createdAt:Date;

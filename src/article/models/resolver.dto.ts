@@ -1,5 +1,6 @@
 import {MinLength} from "class-validator"
-import {Field,ArgsType,Int,InputType} from "@nestjs/graphql"
+import {Field,ObjectType,ArgsType,Int,InputType} from "@nestjs/graphql"
+import {Article} from "./article.model"
 
 @InputType()
 export class CreateArticleArgs {
@@ -9,6 +10,16 @@ export class CreateArticleArgs {
     
     @Field()
     body:string;
+}
+
+
+@ObjectType()
+export class GetAllArticleReturn {
+    @Field(type => [Article])
+    article:Article[];
+    
+    @Field(() => Int)
+    count:number;
 }
 
 @ArgsType()

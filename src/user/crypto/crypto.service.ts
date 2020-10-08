@@ -6,7 +6,4 @@ import {cryptoProvider,Crypto} from "./crypto.provider"
 export class CryptoService {
      constructor(@Inject(Crypto) private crypto){
      }
-    //  crypt(){
-    //      return this.crypto
-    //  }
 }
